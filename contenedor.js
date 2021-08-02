@@ -122,19 +122,21 @@ async function testContenedor(contenedor){
 
         const elementsAfterDelete = await contenedorProductos.getAll();
         
+        console.log("Before Deletion:");
+        console.log(JSON.stringify(elementsBeforeDelete,null,4));
+        console.log("After Deletion:");
+        console.log(JSON.stringify(elementsAfterDelete,null,4));
+
         // Agrego 5 elementos más
         for (let index = 0; index < 5; index++) {
-            await contenedorProductos.save({
+            lastId = await contenedorProductos.save({
                 "title": "Banana",                                                                                                                              
                 "price": 500,
                 "thumbnail": "https://imagenes.elpais.com/resizer/ASFQnPIFc0M2AkhF3UDX5jxb-R8=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/HE3SMC3L7Z7XENXLHLLKE3CDEA.jpg"})
         }
         console.log(lastId)
 
-        console.log("Before Deletion:");
-        console.log(JSON.stringify(elementsBeforeDelete,null,4));
-        console.log("After Deletion:");
-        console.log(JSON.stringify(elementsAfterDelete,null,4));
+
     }
     catch(error){
         console.error(error);
