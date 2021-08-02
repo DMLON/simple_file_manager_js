@@ -1,8 +1,9 @@
 const fs = require('fs');
 
 class Contenedor{
-    constructor(filename){
+    constructor(filename,indentation = 4){
         this.filename = filename;
+        this.indentation = indentation;
     }
 
     async _getLastId(content=null){
@@ -27,13 +28,13 @@ class Contenedor{
             content.push(object);
 
             try{
-                await fs.promises.writeFile(this.filename,JSON.stringify(content,null,4),"utf-8");
+                await fs.promises.writeFile(this.filename,JSON.stringify(content,null,this.indentation),"utf-8");
             }
             catch(error){
                 throw `Error when writing to file: ${error}`;
             }
 
-            return lastId;
+            return lastId + 1;
         }
         catch(error){
             throw `Error while saving elements: ${error}`;
@@ -80,7 +81,7 @@ class Contenedor{
             const contentWithoutElement = content.filter(el=>el.id!=id)
 
             try{
-                await fs.promises.writeFile(this.filename,JSON.stringify(contentWithoutElement,null,4),"utf-8");
+                await fs.promises.writeFile(this.filename,JSON.stringify(contentWithoutElement,null,this.indentation),"utf-8");
             }
             catch(error){
                 throw `Error when writing to file: ${error}`;
@@ -143,7 +144,7 @@ async function testContenedor(contenedor){
     }
 }
 
-const contenedorProductos = new Contenedor('./productos.json');
+const contenedorProductos = new Contenedor('./productos.json', 4);
 
 
 testContenedor(contenedorProductos);
